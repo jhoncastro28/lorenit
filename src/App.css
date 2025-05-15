@@ -1,3 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Dancing Script', cursive;
+}
+
 /* Animaciones generales */
 @keyframes float {
   0% {
@@ -285,7 +304,7 @@
 }
 
 .p-2 {
-  padding: 0.25rem;
+  padding: 0.5rem;
 }
 
 .p-3 {
@@ -306,6 +325,11 @@
 
 .p-10 {
   padding: 2.5rem;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 .px-4 {
@@ -434,6 +458,10 @@
   display: flex;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .items-center {
   align-items: center;
 }
@@ -465,6 +493,10 @@
 
 .font-medium {
   font-weight: 500;
+}
+
+.text-base {
+  font-size: 1rem;
 }
 
 .text-lg {
@@ -530,6 +562,14 @@
   overflow: hidden;
 }
 
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
 /* Utilidades de sombra */
 .shadow {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -558,6 +598,18 @@
 /* Utilidades de transición */
 .transition-all {
   transition-property: all;
+}
+
+.transition-transform {
+  transition-property: transform;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+}
+
+.transition-colors {
+  transition-property: background-color, border-color, color, fill, stroke;
 }
 
 .duration-300 {
@@ -595,31 +647,31 @@
 
 /* Utilidades de opacidad */
 .bg-opacity-30 {
-  --bg-opacity: 0.3;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .bg-opacity-40 {
-  --bg-opacity: 0.4;
+  background-color: rgba(255, 255, 255, 0.4);
 }
 
 .bg-opacity-50 {
-  --bg-opacity: 0.5;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .bg-opacity-60 {
-  --bg-opacity: 0.6;
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .bg-opacity-70 {
-  --bg-opacity: 0.7;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .bg-opacity-90 {
-  --bg-opacity: 0.9;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .hover\:bg-opacity-50:hover {
-  --bg-opacity: 0.5;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .opacity-0 {
@@ -771,4 +823,92 @@
 
 .hover\:text-pink-900:hover {
   color: #831843;
+}
+
+/* Responsive utilities */
+@media (min-width: 640px) {
+  .sm\:inline {
+    display: inline;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:p-8 {
+    padding: 2rem;
+  }
+
+  .md\:p-10 {
+    padding: 2.5rem;
+  }
+
+  .md\:px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .md\:text-lg {
+    font-size: 1.125rem;
+  }
+
+  .md\:text-3xl {
+    font-size: 1.875rem;
+  }
+
+  .md\:text-4xl {
+    font-size: 2.25rem;
+  }
+
+  .md\:max-w-2xl {
+    max-width: 42rem;
+  }
+
+  .md\:mb-0 {
+    margin-bottom: 0;
+  }
+}
+
+/* Fix para imágenes */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Fix para dispositivos móviles */
+@media (max-width: 480px) {
+  .hidden {
+    display: none;
+  }
+
+  .text-2xl {
+    font-size: 1.35rem;
+  }
+
+  .p-4 {
+    padding: 0.75rem;
+  }
+}
+
+/* Mejoras adicionales */
+.aspect-w-4 {
+  position: relative;
+  padding-bottom: 75%;
+}
+
+.aspect-h-3 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button:focus {
+  outline: none;
 }

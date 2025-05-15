@@ -12,7 +12,31 @@ import {
   SkipBack,
   SkipForward,
 } from "lucide-react";
-import "./App.css"; // Asegúrate de que este archivo existe
+import "./App.css";
+
+// Importa todas las imágenes para asegurar que estén disponibles
+import aeropuerto from "./assets/photos/aeropuerto.jpeg";
+import loreAntes from "./assets/photos/loreAntes.jpeg";
+import besoPlanetario from "./assets/photos/besoPlanetario.jpeg";
+import primerViaje from "./assets/photos/primerViaje.jpeg";
+import obelisco from "./assets/photos/obelisco.jpeg";
+import lenguaAfuera from "./assets/photos/lenguaAfuera.jpeg";
+import camiseta from "./assets/photos/camiseta.jpeg";
+import gafasSombrero from "./assets/photos/gafasSombrero.jpeg";
+import arrunchaos from "./assets/photos/arrunchaos.jpeg";
+import snoopy from "./assets/photos/snoopy.jpeg";
+
+// Importa todas las canciones
+import selenaGomez from "./assets/songs/Selena Gomez, benny blanco - Scared of Loving You.mp3";
+import theBeatles from "./assets/songs/The Beatles - Something.mp3";
+import oneDirection from "./assets/songs/One Direction - Fireproof.mp3";
+import benjaminAmadeo from "./assets/songs/Benjamín Amadeo - Para Siempre.mp3";
+import millionLittleReasons from "./assets/songs/million little reasons.mp3";
+import macMiller from "./assets/songs/Mac Miller - Surf.mp3";
+import youAndMe from "./assets/songs/You And Me.mp3";
+import abelPintos from "./assets/songs/Abel Pintos - No Me Olvides.mp3";
+import harryStyles from "./assets/songs/Harry Styles - Love Of My Life.mp3";
+import goodOldFashioned from "./assets/songs/Good Old-Fashioned Lover Boy.mp3";
 
 function App() {
   const [started, setStarted] = useState(false);
@@ -31,8 +55,8 @@ function App() {
       emoji: "✨",
       color: "bg-pink-100",
       quote: "«Una vibra indescriptible»",
-      image: "./assets/photos/aeropuerto.jpeg",
-      song: "./assets/songs/Selena Gomez, benny blanco - Scared of Loving You.mp3",
+      image: aeropuerto,
+      song: selenaGomez,
     },
     {
       title: "Nuestras primeras llamadas",
@@ -40,8 +64,8 @@ function App() {
       emoji: "📞",
       color: "bg-purple-100",
       quote: "«Una historia particular, pero la más hermosa»",
-      image: "./assets/photos/loreAntes.jpeg",
-      song: "./assets/songs/The Beatles - Something.mp3",
+      image: loreAntes,
+      song: theBeatles,
     },
     {
       title: "El primer beso",
@@ -50,8 +74,8 @@ function App() {
       emoji: "💋",
       color: "bg-blue-100",
       quote: "«Un beso lleno de sacrificio y unión»",
-      image: "/assets/photos/besoPlanetario.jpeg",
-      song: "/assets/songs/One Direction - Fireproof.mp3",
+      image: besoPlanetario,
+      song: oneDirection,
     },
     {
       title: "Nuestra primera salida juntos",
@@ -60,8 +84,8 @@ function App() {
       emoji: "🧳",
       color: "bg-green-100",
       quote: "«No importa el destino o el contexto, siempre tú»",
-      image: "/assets/photos/primerViaje.jpeg",
-      song: "/assets/songs/Benjamín Amadeo - Para Siempre.mp3",
+      image: primerViaje,
+      song: benjaminAmadeo,
     },
     {
       title: "Frente al Planetario",
@@ -70,8 +94,8 @@ function App() {
       emoji: "💭",
       color: "bg-yellow-100",
       quote: "«La simpleza contiene los momentos más memorables»",
-      image: "/assets/photos/obelisco.jpeg",
-      song: "/assets/songs/million little reasons.mp3",
+      image: obelisco,
+      song: millionLittleReasons,
     },
     {
       title: "Las noches juntos",
@@ -80,8 +104,8 @@ function App() {
       emoji: "🌙",
       color: "bg-red-100",
       quote: "«No cuento los días, cuento los momentos y risas a tu lado»",
-      image: "/assets/photos/lenguaAfuera.jpeg",
-      song: "/assets/songs/Mac Miller - Surf.mp3",
+      image: lenguaAfuera,
+      song: macMiller,
     },
     {
       title: "Los detalles y gestos siempre desinteresados",
@@ -90,8 +114,8 @@ function App() {
       emoji: "🎁",
       color: "bg-indigo-100",
       quote: "«No se le puede mentir a lo que brota del corazón»",
-      image: "/assets/photos/camiseta.jpeg",
-      song: "/assets/songs/You And Me.mp3",
+      image: camiseta,
+      song: youAndMe,
     },
     {
       title:
@@ -101,8 +125,8 @@ function App() {
       emoji: "🤝",
       color: "bg-teal-100",
       quote: "«Las pruebas de fuego son las que realmente dictaminan. Juntos»",
-      image: "/assets/photos/gafasSombrero.jpeg",
-      song: "/assets/songs/Abel Pintos - No Me Olvides.mp3",
+      image: gafasSombrero,
+      song: abelPintos,
     },
     {
       title: "Los apodos, nuestros chistes, anécdotas y recuerdos",
@@ -111,8 +135,8 @@ function App() {
       emoji: "🌟",
       color: "bg-orange-100",
       quote: "«La belleza en la cotidianidad»",
-      image: "/assets/photos/arrunchaos.jpeg",
-      song: "/assets/songs/Harry Styles - Love Of My Life.mp3",
+      image: arrunchaos,
+      song: harryStyles,
     },
     {
       title: "Hoy",
@@ -122,20 +146,50 @@ function App() {
       color: "bg-pink-100",
       quote:
         "«Te amo por todo lo que eres, todo lo que significas, todo lo que haces y todo lo que quieres»",
-      image: "/assets/photos/snoopy.jpeg",
-      song: "/assets/songs/Good Old-Fashioned Lover Boy.mp3",
+      image: snoopy,
+      song: goodOldFashioned,
     },
   ];
+
+  // Precarga las imágenes para mejorar el rendimiento
+  useEffect(() => {
+    moments.forEach((moment) => {
+      const img = new Image();
+      img.src = moment.image;
+    });
+  }, []);
 
   // Función para cargar la canción actual
   const loadCurrentSong = () => {
     if (audioRef.current && started) {
-      audioRef.current.src = moments[currentMoment].song;
-      audioRef.current.load();
-      if (!isMuted) {
-        audioRef.current.play().catch((error) => {
-          console.error("Error al reproducir audio:", error);
-        });
+      try {
+        // Establece la ruta de la canción actual
+        audioRef.current.src = moments[currentMoment].song;
+
+        // Carga el audio
+        audioRef.current.load();
+
+        // Intenta reproducir solo si no está muteado
+        if (!isMuted) {
+          const playPromise = audioRef.current.play();
+
+          // Manejar la promesa para evitar errores de autoplay
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                // La reproducción se inició correctamente
+                console.log("Audio reproduciendo correctamente");
+              })
+              .catch((error) => {
+                // La reproducción automática no fue permitida
+                console.error("Error al reproducir audio:", error);
+                // Mostrar un indicador visual de que el audio está pausado
+                setIsMuted(true);
+              });
+          }
+        }
+      } catch (error) {
+        console.error("Error al cargar el audio:", error);
       }
     }
   };
@@ -146,9 +200,48 @@ function App() {
       if (isMuted) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch((error) => {
-          console.error("Error al reproducir audio:", error);
-        });
+        const playPromise = audioRef.current.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error("Error al reproducir audio:", error);
+            // Si hay un error de reproducción automática, mostramos un botón para activar el audio manualmente
+            const audioButton = document.createElement("button");
+            audioButton.innerText = "▶️ Activar música";
+            audioButton.style.position = "fixed";
+            audioButton.style.top = "50%";
+            audioButton.style.left = "50%";
+            audioButton.style.transform = "translate(-50%, -50%)";
+            audioButton.style.padding = "10px 20px";
+            audioButton.style.backgroundColor = "#ec4899";
+            audioButton.style.color = "white";
+            audioButton.style.border = "none";
+            audioButton.style.borderRadius = "8px";
+            audioButton.style.zIndex = "9999";
+            audioButton.style.cursor = "pointer";
+
+            audioButton.onclick = () => {
+              if (audioRef.current) {
+                audioRef.current.play();
+                setIsMuted(false);
+                document.body.removeChild(audioButton);
+              }
+            };
+
+            // Solo añadir el botón si no existe ya
+            if (!document.getElementById("audio-activation-button")) {
+              audioButton.id = "audio-activation-button";
+              document.body.appendChild(audioButton);
+
+              // Eliminar el botón después de 5 segundos
+              setTimeout(() => {
+                if (document.getElementById("audio-activation-button")) {
+                  document.body.removeChild(audioButton);
+                }
+              }, 5000);
+            }
+          });
+        }
       }
     }
   }, [started, isMuted]);
@@ -184,19 +277,46 @@ function App() {
     }
   }, [currentMoment, started, moments.length]);
 
+  // Agregar listener para activar audio en interacción del usuario
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      if (audioRef.current && !audioRef.current.paused === false && !isMuted) {
+        audioRef.current.play().catch((error) => {
+          console.error("Error al reproducir audio en interacción:", error);
+        });
+      }
+    };
+
+    window.addEventListener("click", handleUserInteraction);
+    window.addEventListener("touchstart", handleUserInteraction);
+
+    return () => {
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("touchstart", handleUserInteraction);
+    };
+  }, [isMuted]);
+
   const handleStart = () => {
     setStarted(true);
-  };
-
-  const handleNext = () => {
-    if (currentMoment < moments.length - 1) {
-      setCurrentMoment((prev) => prev + 1);
-    }
   };
 
   const handlePrevious = () => {
     if (currentMoment > 0) {
       setCurrentMoment((prev) => prev - 1);
+      // Reiniciar el audio al cambiar de momento
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+      }
+    }
+  };
+
+  const handleNext = () => {
+    if (currentMoment < moments.length - 1) {
+      setCurrentMoment((prev) => prev + 1);
+      // Reiniciar el audio al cambiar de momento
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+      }
     }
   };
 
@@ -318,7 +438,7 @@ function App() {
   // Mensaje personalizado
   const SpecialMessage = () => {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 animate-fadeIn">
+      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 animate-fadeIn overflow-auto">
         <div className="bg-gradient-to-br from-pink-100 to-purple-100 p-6 rounded-lg shadow-xl max-w-md w-full relative">
           <button
             onClick={handleCloseMessage}
@@ -351,14 +471,16 @@ function App() {
     );
   };
 
-  // Mostrar información de la canción que está sonando
   const SongInfo = () => {
     if (!started || !moments[currentMoment].song) return null;
 
+    // Extrae solo el nombre del archivo sin la ruta completa ni la extensión
     const songName = moments[currentMoment].song
       .split("/")
       .pop()
-      ?.replace(".mp3", "");
+      ?.replace(".mp3", "")
+      // Decodifica caracteres especiales y espacios
+      .replace(/%20/g, " ");
 
     return (
       <div className="fixed bottom-4 right-4 bg-white bg-opacity-50 py-2 px-4 rounded-full shadow-md z-40 backdrop-blur-sm flex items-center">
@@ -373,7 +495,7 @@ function App() {
   return (
     <div
       ref={containerRef}
-      className={`min-h-screen flex items-center justify-center relative overflow-hidden ${
+      className={`min-h-screen flex items-center justify-center relative overflow-x-hidden ${
         started ? moments[currentMoment].color : "bg-pink-50"
       } transition-colors duration-1000`}
     >
@@ -381,7 +503,16 @@ function App() {
       {started && <ShiningStars />}
 
       {/* Reproducción de audio */}
-      <audio ref={audioRef} />
+      <audio
+        ref={audioRef}
+        preload="auto"
+        loop={false}
+        controls={false}
+        style={{ display: "none" }}
+        onError={(e) => {
+          console.error("Error en elemento de audio:", e);
+        }}
+      />
 
       {/* Controles de audio */}
       {started && (
@@ -418,7 +549,7 @@ function App() {
 
       {!started ? (
         // Portada inicial
-        <div className="text-center bg-gradient-to-br from-pink-50 to-purple-50 p-10 rounded-lg shadow-xl max-w-md mx-4 relative z-10 transition-all duration-500 hover:shadow-2xl">
+        <div className="text-center bg-gradient-to-br from-pink-50 to-purple-50 p-6 md:p-10 rounded-lg shadow-xl max-w-md mx-4 relative z-10 transition-all duration-500 hover:shadow-2xl">
           <div className="animate-heartbeat mb-6">
             <Heart
               className="mx-auto text-pink-500"
@@ -426,19 +557,19 @@ function App() {
               fill="currentColor"
             />
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-4">
             Nuestra Historia de Amor
           </h1>
           <p className="text-pink-700 mb-8 text-lg">
             Un recorrido por los momentos que han construido nuestra historia
             juntos
           </p>
-          <div className="flex justify-center mb-6 space-x-4">
-            <div className="flex items-center text-pink-600">
+          <div className="flex flex-wrap justify-center mb-6 space-x-2 md:space-x-4">
+            <div className="flex items-center text-pink-600 mb-2 md:mb-0">
               <Camera size={18} className="mr-1" />
               <span>Recuerdos</span>
             </div>
-            <div className="flex items-center text-pink-600">
+            <div className="flex items-center text-pink-600 mb-2 md:mb-0">
               <Music size={18} className="mr-1" />
               <span>Música</span>
             </div>
@@ -458,7 +589,7 @@ function App() {
       ) : (
         // Visualización de momentos
         <div
-          className={`w-full max-w-2xl mx-4 p-8 rounded-lg shadow-2xl transition-all duration-1000 bg-gradient-to-br from-${
+          className={`w-full max-w-md md:max-w-2xl mx-4 p-4 md:p-8 rounded-lg shadow-2xl transition-all duration-1000 bg-gradient-to-br from-${
             moments[currentMoment].color.split("-")[1]
           } to-${
             moments[currentMoment].color.split("-")[1]
@@ -481,10 +612,10 @@ function App() {
                 <span className="text-4xl mb-2 inline-block">
                   {moments[currentMoment].emoji}
                 </span>
-                <h2 className="text-3xl font-bold text-pink-800 mb-3 animate-slideIn">
+                <h2 className="text-2xl md:text-3xl font-bold text-pink-800 mb-3 animate-slideIn">
                   {moments[currentMoment].title}
                 </h2>
-                <p className="text-lg text-pink-700">
+                <p className="text-base md:text-lg text-pink-700">
                   {moments[currentMoment].description}
                 </p>
               </div>
@@ -497,11 +628,29 @@ function App() {
               {/* Imagen con marco más bonito */}
               <div className="bg-white p-3 rounded-lg shadow-lg mx-auto max-w-sm mb-6 rotate-1 hover:rotate-0 transition-all duration-300 animate-float-photo">
                 <div className="bg-gradient-to-br from-pink-200 to-purple-100 p-1 rounded">
-                  <div className="aspect-w-4 aspect-h-3 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
+                  <div
+                    className="rounded flex items-center justify-center overflow-hidden"
+                    style={{ minHeight: "250px" }}
+                  >
                     <img
                       src={moments[currentMoment].image}
                       alt={`Momento: ${moments[currentMoment].title}`}
-                      className="max-h-64 rounded object-cover transform hover:scale-105 transition-transform duration-700"
+                      className="rounded object-cover"
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "300px",
+                        width: "auto",
+                        height: "auto",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        console.error(
+                          `Error loading image: ${moments[currentMoment].image}`
+                        );
+                        const target = e.target as HTMLImageElement;
+                        target.src =
+                          "https://via.placeholder.com/400x300?text=Imagen+no+disponible";
+                      }}
                     />
                   </div>
                 </div>
@@ -513,14 +662,14 @@ function App() {
               <button
                 onClick={handlePrevious}
                 disabled={currentMoment === 0}
-                className={`py-2 px-5 rounded-full font-medium transition-all duration-300 flex items-center ${
+                className={`py-2 px-3 md:px-5 rounded-full font-medium transition-all duration-300 flex items-center ${
                   currentMoment === 0
                     ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                     : "bg-gradient-to-r from-pink-400 to-pink-500 text-white hover:from-pink-500 hover:to-pink-600 hover:shadow-md"
                 }`}
               >
                 <SkipBack size={16} className="mr-1" />
-                Anterior
+                <span className="hidden sm:inline">Anterior</span>
               </button>
 
               <span className="text-pink-800 font-medium bg-white bg-opacity-50 py-2 px-4 rounded-full">
@@ -530,13 +679,13 @@ function App() {
               <button
                 onClick={handleNext}
                 disabled={currentMoment === moments.length - 1}
-                className={`py-2 px-5 rounded-full font-medium transition-all duration-300 flex items-center ${
+                className={`py-2 px-3 md:px-5 rounded-full font-medium transition-all duration-300 flex items-center ${
                   currentMoment === moments.length - 1
                     ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                     : "bg-gradient-to-r from-pink-400 to-pink-500 text-white hover:from-pink-500 hover:to-pink-600 hover:shadow-md"
                 }`}
               >
-                Siguiente
+                <span className="hidden sm:inline">Siguiente</span>
                 <SkipForward size={16} className="ml-1" />
               </button>
             </div>
