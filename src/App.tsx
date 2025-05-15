@@ -55,7 +55,7 @@ function App() {
       emoji: "✨",
       color: "bg-pink-100",
       quote: "«Una vibra indescriptible»",
-      image: aeropuerto,
+      image: loreAntes,
       song: selenaGomez,
     },
     {
@@ -64,7 +64,7 @@ function App() {
       emoji: "📞",
       color: "bg-purple-100",
       quote: "«Una historia particular, pero la más hermosa»",
-      image: loreAntes,
+      image: lenguaAfuera,
       song: theBeatles,
     },
     {
@@ -74,7 +74,7 @@ function App() {
       emoji: "💋",
       color: "bg-blue-100",
       quote: "«Un beso lleno de sacrificio y unión»",
-      image: besoPlanetario,
+      image: aeropuerto,
       song: oneDirection,
     },
     {
@@ -94,7 +94,7 @@ function App() {
       emoji: "💭",
       color: "bg-yellow-100",
       quote: "«La simpleza contiene los momentos más memorables»",
-      image: obelisco,
+      image: besoPlanetario,
       song: millionLittleReasons,
     },
     {
@@ -104,7 +104,7 @@ function App() {
       emoji: "🌙",
       color: "bg-red-100",
       quote: "«No cuento los días, cuento los momentos y risas a tu lado»",
-      image: lenguaAfuera,
+      image: arrunchaos,
       song: macMiller,
     },
     {
@@ -135,7 +135,7 @@ function App() {
       emoji: "🌟",
       color: "bg-orange-100",
       quote: "«La belleza en la cotidianidad»",
-      image: arrunchaos,
+      image: obelisco,
       song: harryStyles,
     },
     {
@@ -165,33 +165,93 @@ function App() {
       try {
         // Establece la ruta de la canción actual
         audioRef.current.src = moments[currentMoment].song;
-
-        // Carga el audio
         audioRef.current.load();
+
+        // Configurar el audio para reproducción inmediata cuando sea posible
+        audioRef.current.volume = 0.8;
+        audioRef.current.muted = isMuted;
 
         // Intenta reproducir solo si no está muteado
         if (!isMuted) {
-          const playPromise = audioRef.current.play();
-
-          // Manejar la promesa para evitar errores de autoplay
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                // La reproducción se inició correctamente
-                console.log("Audio reproduciendo correctamente");
-              })
-              .catch((error) => {
-                // La reproducción automática no fue permitida
-                console.error("Error al reproducir audio:", error);
-                // Mostrar un indicador visual de que el audio está pausado
-                setIsMuted(true);
-              });
-          }
+          // Usar setTimeout para asegurar que el audio se carga completamente
+          setTimeout(() => {
+            const playPromise = audioRef.current?.play();
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => {
+                  console.log("Audio reproduciendo correctamente");
+                })
+                .catch((error) => {
+                  console.error("Error al reproducir audio:", error);
+                  // Mostrar un botón para activación manual
+                  showAudioActivationButton();
+                  setIsMuted(true);
+                });
+            }
+          }, 500);
         }
       } catch (error) {
         console.error("Error al cargar el audio:", error);
       }
     }
+  };
+
+  const showAudioActivationButton = () => {
+    // Eliminar botón existente si lo hay
+    const existingButton = document.getElementById("audio-activation-button");
+    if (existingButton) {
+      existingButton.remove();
+    }
+
+    const audioButton = document.createElement("button");
+    audioButton.innerText = "▶️ Activar música";
+    audioButton.id = "audio-activation-button";
+    audioButton.style.position = "fixed";
+    audioButton.style.top = "50%";
+    audioButton.style.left = "50%";
+    audioButton.style.transform = "translate(-50%, -50%)";
+    audioButton.style.padding = "12px 24px";
+    audioButton.style.backgroundColor = "#ec4899";
+    audioButton.style.color = "white";
+    audioButton.style.border = "none";
+    audioButton.style.borderRadius = "8px";
+    audioButton.style.zIndex = "9999";
+    audioButton.style.cursor = "pointer";
+    audioButton.style.fontFamily = "'Poppins', sans-serif";
+    audioButton.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
+    audioButton.style.fontSize = "1rem";
+    audioButton.style.fontWeight = "500";
+    audioButton.style.animation = "pulse 2s infinite";
+
+    audioButton.onclick = () => {
+      if (audioRef.current) {
+        audioRef.current.muted = false;
+        const playAttempt = audioRef.current.play();
+
+        if (playAttempt) {
+          playAttempt
+            .then(() => {
+              setIsMuted(false);
+              document.body.removeChild(audioButton);
+            })
+            .catch((err) => {
+              console.error("Error al reproducir después de clic:", err);
+              // Dejamos el botón visible para que el usuario pueda intentarlo de nuevo
+            });
+        }
+      }
+    };
+
+    // Solo añadir si no existe ya
+    document.body.appendChild(audioButton);
+
+    // Eliminar después de 10 segundos
+    setTimeout(() => {
+      const buttonElement = document.getElementById("audio-activation-button");
+      if (buttonElement) {
+        buttonElement.remove();
+      }
+    }, 10000);
   };
 
   // Iniciar o detener la música según el estado
@@ -243,6 +303,66 @@ function App() {
           });
         }
       }
+    }
+  }, [started, isMuted]);
+
+  useEffect(() => {
+    if (started) {
+      // Intentar reproducir después de que el componente se monte completamente
+      const timer = setTimeout(() => {
+        if (audioRef.current && !isMuted) {
+          const playAttempt = audioRef.current.play();
+          if (playAttempt) {
+            playAttempt.catch((error) => {
+              console.log("Reproducción automática bloqueada:", error);
+
+              // Añadir botón temporal para activar audio
+              const audioButton = document.createElement("button");
+              audioButton.innerText = "▶️ Activar música";
+              audioButton.id = "audio-activation-button";
+              audioButton.style.position = "fixed";
+              audioButton.style.top = "50%";
+              audioButton.style.left = "50%";
+              audioButton.style.transform = "translate(-50%, -50%)";
+              audioButton.style.padding = "10px 20px";
+              audioButton.style.backgroundColor = "#ec4899";
+              audioButton.style.color = "white";
+              audioButton.style.border = "none";
+              audioButton.style.borderRadius = "8px";
+              audioButton.style.zIndex = "9999";
+              audioButton.style.cursor = "pointer";
+              audioButton.style.fontFamily = "'Poppins', sans-serif";
+              audioButton.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
+
+              audioButton.onclick = () => {
+                if (audioRef.current) {
+                  audioRef.current
+                    .play()
+                    .then(() => {
+                      setIsMuted(false);
+                      document.body.removeChild(audioButton);
+                    })
+                    .catch((err) => console.error("Error al reproducir:", err));
+                }
+              };
+
+              // Solo añadir si no existe ya
+              if (!document.getElementById("audio-activation-button")) {
+                document.body.appendChild(audioButton);
+
+                // Eliminar después de 8 segundos
+                setTimeout(() => {
+                  if (document.getElementById("audio-activation-button")) {
+                    document.body.removeChild(audioButton);
+                  }
+                }, 8000);
+              }
+            });
+          }
+        }
+      }, 1000);
+
+      return () => clearTimeout(timer);
     }
   }, [started, isMuted]);
 
@@ -350,57 +470,58 @@ function App() {
 
     const emojis = ["❤️", "💖", "💕", "💓", "💗", "💞", "💘", "💝", "✨", "🎉"];
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 120; i++) {
       setTimeout(() => {
         const confetti = document.createElement("div");
         confetti.style.position = "absolute";
         confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.fontSize = Math.random() * 20 + 10 + "px";
+        confetti.style.fontSize = Math.random() * 24 + 12 + "px";
         confetti.style.userSelect = "none";
+        confetti.style.zIndex = "1000";
         confetti.textContent =
           emojis[Math.floor(Math.random() * emojis.length)];
         confetti.style.animation = `fall ${
-          Math.random() * 3 + 2
+          Math.random() * 3 + 3
         }s linear forwards`;
         confettiContainer.appendChild(confetti);
 
         setTimeout(() => {
           confetti.remove();
-        }, 5000);
-      }, Math.random() * 2000);
+        }, 6000);
+      }, Math.random() * 2500);
     }
 
     setTimeout(() => {
       confettiContainer.remove();
-    }, 7000);
+    }, 8500);
   };
 
   // Corazones flotantes
   const FloatingHearts = () => {
     return (
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 30 }).map((_, i) => (
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        {Array.from({ length: 15 }).map((_, i) => (
           <div
             key={i}
-            className="absolute animate-float"
+            className="fixed animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDuration: `${8 + Math.random() * 15}s`,
-              animationDelay: `${Math.random() * 8}s`,
-              opacity: 0.2 + Math.random() * 0.5,
-              transform: `scale(${0.3 + Math.random() * 1.2})`,
+              animationDuration: `${10 + Math.random() * 20}s`,
+              animationDelay: `${Math.random() * 10}s`,
+              opacity: 0.5 + Math.random() * 0.3, // Mayor opacidad
+              transform: `scale(${0.4 + Math.random() * 0.6})`,
             }}
           >
             <Heart
               className={`${
                 i % 3 === 0
-                  ? "text-pink-500"
+                  ? "text-pink-600"
                   : i % 3 === 1
-                  ? "text-red-400"
-                  : "text-purple-400"
+                  ? "text-red-500"
+                  : "text-purple-500"
               }`}
-              size={i % 5 === 0 ? 32 : 24}
+              size={i % 5 === 0 ? 30 : 22}
               fill="currentColor"
             />
           </div>
@@ -412,21 +533,22 @@ function App() {
   // Estrellas brillantes
   const ShiningStars = () => {
     return (
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        {Array.from({ length: 12 }).map((_, i) => (
           <div
             key={i}
-            className="absolute animate-twinkle"
+            className="fixed animate-twinkle"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDuration: `${1 + Math.random() * 3}s`,
-              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${1.5 + Math.random() * 4}s`,
+              animationDelay: `${Math.random() * 2}s`,
+              opacity: 0.7,
             }}
           >
             <Star
-              className="text-yellow-300"
-              size={i % 3 === 0 ? 16 : 12}
+              className="text-yellow-400"
+              size={i % 3 === 0 ? 18 : 14}
               fill="currentColor"
             />
           </div>
@@ -483,9 +605,9 @@ function App() {
       .replace(/%20/g, " ");
 
     return (
-      <div className="fixed bottom-4 right-4 bg-white bg-opacity-50 py-2 px-4 rounded-full shadow-md z-40 backdrop-blur-sm flex items-center">
-        <Music size={16} className="text-pink-700 mr-2" />
-        <span className="text-sm text-pink-800 font-medium truncate max-w-xs">
+      <div className="fixed bottom-4 left-4 bg-white bg-opacity-70 py-2 px-4 rounded-full shadow-md z-40 backdrop-blur-sm flex items-center max-w-[80%]">
+        <Music size={16} className="text-pink-700 mr-2 flex-shrink-0" />
+        <span className="text-sm text-pink-800 font-medium truncate">
           {songName}
         </span>
       </div>
@@ -495,7 +617,7 @@ function App() {
   return (
     <div
       ref={containerRef}
-      className={`min-h-screen flex items-center justify-center relative overflow-x-hidden ${
+      className={`min-h-screen w-full flex items-center justify-center relative overflow-hidden ${
         started ? moments[currentMoment].color : "bg-pink-50"
       } transition-colors duration-1000`}
     >
@@ -589,11 +711,12 @@ function App() {
       ) : (
         // Visualización de momentos
         <div
-          className={`w-full max-w-md md:max-w-2xl mx-4 p-4 md:p-8 rounded-lg shadow-2xl transition-all duration-1000 bg-gradient-to-br from-${
+          className={`w-full max-w-md md:max-w-2xl mx-auto p-3 md:p-6 lg:p-8 rounded-lg shadow-2xl transition-all duration-1000 bg-gradient-to-br from-${
             moments[currentMoment].color.split("-")[1]
           } to-${
             moments[currentMoment].color.split("-")[1]
           }-50 backdrop-blur-sm bg-opacity-90`}
+          style={{ margin: "0 16px" }}
         >
           <div className="relative overflow-hidden">
             {/* Indicador de progreso */}
@@ -630,18 +753,16 @@ function App() {
                 <div className="bg-gradient-to-br from-pink-200 to-purple-100 p-1 rounded">
                   <div
                     className="rounded flex items-center justify-center overflow-hidden"
-                    style={{ minHeight: "250px" }}
+                    style={{ minHeight: "200px", maxHeight: "280px" }}
                   >
                     <img
                       src={moments[currentMoment].image}
                       alt={`Momento: ${moments[currentMoment].title}`}
                       className="rounded object-cover"
                       style={{
-                        maxWidth: "100%",
-                        maxHeight: "300px",
-                        width: "auto",
-                        height: "auto",
-                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
                       }}
                       onError={(e) => {
                         console.error(
