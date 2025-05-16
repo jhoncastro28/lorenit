@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import {
   Heart,
   Music,
-  Gift,
   Camera,
   Star,
   MessageSquareHeart,
@@ -694,10 +693,6 @@ function App() {
             <div className="flex items-center text-pink-600 mb-2 md:mb-0">
               <Music size={18} className="mr-1" />
               <span>Música</span>
-            </div>
-            <div className="flex items-center text-pink-600">
-              <Gift size={18} className="mr-1" />
-              <span>Sorpresas</span>
             </div>
           </div>
           <button
