@@ -205,11 +205,14 @@ function App() {
     const audioButton = document.createElement("button");
     audioButton.innerText = "▶️ Activar música";
     audioButton.id = "audio-activation-button";
+
+    // Move button to top-right instead of center
     audioButton.style.position = "fixed";
-    audioButton.style.top = "50%";
-    audioButton.style.left = "50%";
-    audioButton.style.transform = "translate(-50%, -50%)";
-    audioButton.style.padding = "12px 24px";
+    audioButton.style.top = "20px"; // Position at top
+    audioButton.style.right = "20px"; // Position at right
+    audioButton.style.transform = "none"; // Remove the centering transform
+
+    audioButton.style.padding = "8px 16px"; // Smaller padding
     audioButton.style.backgroundColor = "#ec4899";
     audioButton.style.color = "white";
     audioButton.style.border = "none";
@@ -218,7 +221,7 @@ function App() {
     audioButton.style.cursor = "pointer";
     audioButton.style.fontFamily = "'Poppins', sans-serif";
     audioButton.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
-    audioButton.style.fontSize = "1rem";
+    audioButton.style.fontSize = "0.9rem"; // Smaller font size
     audioButton.style.fontWeight = "500";
     audioButton.style.animation = "pulse 2s infinite";
 
@@ -417,6 +420,18 @@ function App() {
 
   const handleStart = () => {
     setStarted(true);
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.src = moments[0].song;
+        audioRef.current.load();
+        audioRef.current.volume = 0.8;
+        audioRef.current.play().catch((error) => {
+          console.error("Error playing audio:", error);
+          setIsMuted(true);
+          showAudioActivationButton();
+        });
+      }
+    }, 100);
   };
 
   const handlePrevious = () => {
@@ -592,6 +607,7 @@ function App() {
     );
   };
 
+  /*
   const SongInfo = () => {
     if (!started || !moments[currentMoment].song) return null;
 
@@ -612,6 +628,7 @@ function App() {
       </div>
     );
   };
+  */
 
   return (
     <div
@@ -662,9 +679,6 @@ function App() {
           <MessageSquareHeart size={20} className="text-pink-700" />
         </button>
       )}
-
-      {/* Mostrar información de la canción */}
-      <SongInfo />
 
       {showMessage && <SpecialMessage />}
 
