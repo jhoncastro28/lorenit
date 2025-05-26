@@ -507,7 +507,7 @@ function App() {
               />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-4">
-              Lore & Jhon ❤️
+              Lore & Jhon
             </h1>
             <p className="text-pink-700 mb-8 text-lg">
               Un recorrido por los momentos que han construido nuestra historia
