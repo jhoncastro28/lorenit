@@ -58,7 +58,7 @@ function App() {
   const [isMuted, setIsMuted] = useState(false); // Cambiado: inicia sin silenciar
   const [isPlaying, setIsPlaying] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const [customMessage, setCustomMessage] = useState("");
+  const [customMessage] = useState("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
