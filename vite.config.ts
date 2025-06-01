@@ -5,7 +5,9 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    base: process.env.NODE_ENV === 'production' ? '/lorenit/' : '/',
+
+    // Base path para GitHub Pages
+    base: '/lorenit/',
 
     // Optimizaciones de build
     build: {
@@ -15,8 +17,11 @@ export default defineConfig({
         sourcemap: false,
         minify: 'terser',
 
-        // Configuración de chunks para mejor carga
+        // Configuración específica para GitHub Pages
         rollupOptions: {
+            input: {
+                main: resolve(__dirname, 'index.html')
+            },
             output: {
                 manualChunks: {
                     vendor: ['react', 'react-dom'],
@@ -43,7 +48,7 @@ export default defineConfig({
             }
         },
 
-        // Configuración de terser para mejor minificación
+        // Configuración de terser
         terserOptions: {
             compress: {
                 drop_console: true,
@@ -65,10 +70,10 @@ export default defineConfig({
         open: true,
     },
 
-    // Optimizaciones de assets
+    // Assets incluidos
     assetsInclude: ['**/*.mp3', '**/*.wav', '**/*.ogg'],
 
-    // Configuración de resolve para mejor manejo de paths
+    // Resolve configuration
     resolve: {
         alias: {
             '@': resolve(__dirname, 'src'),
@@ -77,8 +82,11 @@ export default defineConfig({
         }
     },
 
-    // Configuración de optimización de dependencias
+    // Optimización de dependencias
     optimizeDeps: {
         include: ['react', 'react-dom', 'lucide-react'],
     },
+
+    // Configuración del directorio público
+    publicDir: 'public',
 });

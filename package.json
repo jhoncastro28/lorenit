@@ -12,8 +12,7 @@
     "interactive",
     "vite"
   ],
-  "author": "Tu nombre",
-  "license": "MIT",
+  "author": "Jhon Castro",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -b && vite build",
