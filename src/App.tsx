@@ -10,6 +10,8 @@ import {
   VolumeX,
   SkipBack,
   SkipForward,
+  Play,
+  Pause,
 } from "lucide-react";
 import "./App.css";
 
@@ -26,7 +28,7 @@ import arrunchaos from "./assets/photos/arrunchaos.jpeg";
 import snoopy from "./assets/photos/snoopy.jpeg";
 
 // Todas las canciones
-import selenaGomez from "./assets/songs/Selena Gomez, benny blanco - Scared of Loving You.mp3";
+import silverTongues from "./assets/songs/Louis Tomlinson - Silver Tongues.mp3";
 import theBeatles from "./assets/songs/The Beatles - Something.mp3";
 import oneDirection from "./assets/songs/One Direction - Fireproof.mp3";
 import benjaminAmadeo from "./assets/songs/Benjamin Amadeo - Para Siempre.mp3";
@@ -35,12 +37,13 @@ import macMiller from "./assets/songs/Mac Miller - Surf.mp3";
 import youAndMe from "./assets/songs/You And Me - Niall Horan.mp3";
 import abelPintos from "./assets/songs/Abel Pintos - No Me Olvides.mp3";
 import harryStyles from "./assets/songs/Harry Styles - Love Of My Life.mp3";
-import goodOldFashioned from "./assets/songs/Good Old-Fashioned Lover Boy.mp3";
+import goodOldFashioned from "./assets/songs/Good Old-Fashioned Lover Boy - Queen.mp3";
 
 function App() {
   const [started, setStarted] = useState(false);
   const [currentMoment, setCurrentMoment] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(false); // Cambiado: inicia sin silenciar
+  const [isPlaying, setIsPlaying] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -55,7 +58,7 @@ function App() {
       color: "bg-pink-100",
       quote: "«Una vibra indescriptible»",
       image: loreAntes,
-      song: selenaGomez,
+      song: silverTongues,
     },
     {
       title: "Nuestras primeras llamadas",
@@ -166,15 +169,20 @@ function App() {
         audioRef.current.load();
         audioRef.current.volume = 0.7;
         audioRef.current.muted = isMuted;
+        audioRef.current.loop = true; // Hacer que las canciones se reproduzcan en loop
 
         // Reproducir automáticamente sin mostrar botones
         if (!isMuted) {
           setTimeout(() => {
-            audioRef.current?.play().catch((error) => {
-              console.log("Reproducción automática bloqueada:", error);
-              // Silenciosamente manejar el error sin mostrar botones
-              setIsMuted(true);
-            });
+            audioRef.current
+              ?.play()
+              .then(() => {
+                setIsPlaying(true);
+              })
+              .catch((error) => {
+                console.log("Reproducción automática bloqueada:", error);
+                setIsPlaying(false);
+              });
           }, 300);
         }
       } catch (error) {
@@ -188,11 +196,17 @@ function App() {
     if (started && audioRef.current) {
       if (isMuted) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
-        audioRef.current.play().catch((error) => {
-          console.log("Audio bloqueado, continuando sin música:", error);
-          setIsMuted(true);
-        });
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.log("Audio bloqueado, continuando sin música:", error);
+            setIsPlaying(false);
+          });
       }
     }
   }, [started, isMuted]);
@@ -201,25 +215,6 @@ function App() {
   useEffect(() => {
     loadCurrentSong();
   }, [currentMoment]);
-
-  // Pasar al siguiente momento cuando termina la canción
-  useEffect(() => {
-    if (audioRef.current && started) {
-      const handleSongEnd = () => {
-        if (currentMoment < moments.length - 1) {
-          setCurrentMoment((prev) => prev + 1);
-        }
-      };
-
-      audioRef.current.addEventListener("ended", handleSongEnd);
-
-      return () => {
-        if (audioRef.current) {
-          audioRef.current.removeEventListener("ended", handleSongEnd);
-        }
-      };
-    }
-  }, [audioRef, currentMoment, moments.length, started]);
 
   // Confeti en el último momento
   useEffect(() => {
@@ -232,9 +227,14 @@ function App() {
   useEffect(() => {
     const handleUserInteraction = () => {
       if (audioRef.current && audioRef.current.paused && !isMuted) {
-        audioRef.current.play().catch((error) => {
-          console.log("Error al reproducir audio:", error);
-        });
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.log("Error al reproducir audio:", error);
+          });
       }
     };
 
@@ -256,10 +256,16 @@ function App() {
         audioRef.current.src = moments[0].song;
         audioRef.current.load();
         audioRef.current.volume = 0.7;
-        audioRef.current.play().catch((error) => {
-          console.log("Reproducción inicial bloqueada:", error);
-          setIsMuted(true);
-        });
+        audioRef.current.loop = true;
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.log("Reproducción inicial bloqueada:", error);
+            setIsPlaying(false);
+          });
       }
     }, 100);
   };
@@ -284,6 +290,39 @@ function App() {
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+    if (audioRef.current) {
+      if (!isMuted) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(() => {
+            setIsPlaying(false);
+          });
+      }
+    }
+  };
+
+  const togglePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(() => {
+            setIsPlaying(false);
+          });
+      }
+    }
   };
 
   const handleShowMessage = () => {
@@ -435,7 +474,7 @@ function App() {
     );
   };
 
-  // Obtener nombre de la canción para mostrar en la sección fija
+  // Obtener nombre de la canción para mostrar
   const getCurrentSongName = () => {
     if (!started || !moments[currentMoment].song) return null;
 
@@ -449,7 +488,7 @@ function App() {
   return (
     <div
       ref={containerRef}
-      className={`min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden ${
+      className={`min-h-screen w-full flex flex-col relative overflow-hidden ${
         started ? moments[currentMoment].color : "bg-pink-50"
       } transition-colors duration-1000`}
     >
@@ -460,72 +499,45 @@ function App() {
       <audio
         ref={audioRef}
         preload="auto"
-        loop={false}
+        loop={true}
         controls={false}
         style={{ display: "none" }}
       />
 
-      {/* Controles de audio y mensaje en esquina superior */}
-      {started && (
-        <div className="fixed top-4 right-4 flex items-center space-x-2 z-40">
-          {/* Botón de mensaje especial */}
-          <button
-            onClick={handleShowMessage}
-            className="bg-white bg-opacity-70 hover:bg-opacity-90 p-3 rounded-full transition-all duration-300 shadow-lg"
-            title="Ver mensaje especial"
-          >
-            <MessageSquareHeart size={20} className="text-pink-700" />
-          </button>
-
-          {/* Control de audio */}
-          <button
-            onClick={toggleMute}
-            className="bg-white bg-opacity-70 hover:bg-opacity-90 p-3 rounded-full transition-all duration-300 shadow-lg"
-            title={isMuted ? "Activar música" : "Silenciar música"}
-          >
-            {isMuted ? (
-              <VolumeX size={20} className="text-pink-700" />
-            ) : (
-              <Volume2 size={20} className="text-pink-700" />
-            )}
-          </button>
-        </div>
-      )}
-
       {showMessage && <SpecialMessage />}
 
-      {/* Contenido principal */}
-      <div className="flex-1 flex items-center justify-center w-full">
+      {/* Contenido principal centrado */}
+      <div className="flex-1 flex items-center justify-center w-full p-4">
         {!started ? (
           // Portada inicial
-          <div className="text-center bg-gradient-to-br from-pink-50 to-purple-50 p-6 md:p-10 rounded-lg shadow-xl max-w-md mx-4 relative z-10 transition-all duration-500 hover:shadow-2xl">
-            <div className="animate-heartbeat mb-6">
+          <div className="text-center bg-gradient-to-br from-pink-50 to-purple-50 p-8 md:p-12 rounded-2xl shadow-2xl max-w-lg mx-auto relative z-10 transition-all duration-500 hover:shadow-3xl">
+            <div className="animate-heartbeat mb-8">
               <Heart
                 className="mx-auto text-pink-500"
-                size={80}
+                size={100}
                 fill="currentColor"
               />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-6">
               Lore & Jhon
             </h1>
-            <p className="text-pink-700 mb-8 text-lg">
+            <p className="text-pink-700 mb-8 text-lg md:text-xl leading-relaxed">
               Un recorrido por los momentos que han construido nuestra historia
               juntos
             </p>
-            <div className="flex flex-wrap justify-center mb-6 space-x-2 md:space-x-4">
-              <div className="flex items-center text-pink-600 mb-2 md:mb-0">
-                <Camera size={18} className="mr-1" />
+            <div className="flex flex-wrap justify-center mb-8 gap-4">
+              <div className="flex items-center text-pink-600 bg-white bg-opacity-60 px-4 py-2 rounded-full">
+                <Camera size={20} className="mr-2" />
                 <span>Recuerdos</span>
               </div>
-              <div className="flex items-center text-pink-600 mb-2 md:mb-0">
-                <Music size={18} className="mr-1" />
+              <div className="flex items-center text-pink-600 bg-white bg-opacity-60 px-4 py-2 rounded-full">
+                <Music size={20} className="mr-2" />
                 <span>Música</span>
               </div>
             </div>
             <button
               onClick={handleStart}
-              className="relative overflow-hidden bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 group"
+              className="relative overflow-hidden bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 hover:scale-105 group text-lg"
             >
               <span className="relative z-10">Comenzar Nuestro Viaje ❤️</span>
               <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
@@ -533,15 +545,12 @@ function App() {
           </div>
         ) : (
           // Visualización de momentos
-          <div
-            className={`w-full max-w-md md:max-w-2xl mx-auto p-3 md:p-6 lg:p-8 rounded-lg shadow-2xl transition-all duration-1000 bg-gradient-to-br from-${
-              moments[currentMoment].color.split("-")[1]
-            } to-${
-              moments[currentMoment].color.split("-")[1]
-            }-50 backdrop-blur-sm bg-opacity-90`}
-            style={{ margin: "0 16px" }}
-          >
-            <div className="relative overflow-hidden">
+          <div className="w-full max-w-lg mx-auto">
+            <div
+              className={`bg-gradient-to-br from-white to-${
+                moments[currentMoment].color.split("-")[1]
+              }-50 p-6 md:p-8 rounded-2xl shadow-2xl transition-all duration-1000 backdrop-blur-sm bg-opacity-95`}
+            >
               {/* Indicador de progreso */}
               <div className="mb-6 w-full bg-white bg-opacity-40 h-2 rounded-full overflow-hidden">
                 <div
@@ -554,38 +563,33 @@ function App() {
 
               {/* Contenido del momento */}
               <div className="animate-fadeIn">
-                <div className="text-center mb-8">
-                  <span className="text-4xl mb-2 inline-block">
+                <div className="text-center mb-6">
+                  <span className="text-5xl mb-3 inline-block">
                     {moments[currentMoment].emoji}
                   </span>
-                  <h2 className="text-2xl md:text-3xl font-bold text-pink-800 mb-3 animate-slideIn">
+                  <h2 className="text-2xl md:text-3xl font-bold text-pink-800 mb-4 animate-slideIn">
                     {moments[currentMoment].title}
                   </h2>
-                  <p className="text-base md:text-lg text-pink-700">
+                  <p className="text-base md:text-lg text-pink-700 leading-relaxed">
                     {moments[currentMoment].description}
                   </p>
                 </div>
 
                 {/* Cita romántica */}
-                <div className="bg-white bg-opacity-50 p-4 rounded-lg my-6 text-center italic text-pink-800">
+                <div className="bg-white bg-opacity-60 p-4 rounded-xl my-6 text-center italic text-pink-800 border-l-4 border-pink-400">
                   {moments[currentMoment].quote}
                 </div>
 
-                {/* Imagen con marco más bonito */}
-                <div className="bg-white p-3 rounded-lg shadow-lg mx-auto max-w-sm mb-6 rotate-1 hover:rotate-0 transition-all duration-300 animate-float-photo">
-                  <div className="bg-gradient-to-br from-pink-200 to-purple-100 p-1 rounded">
-                    <div
-                      className="rounded flex items-center justify-center overflow-hidden"
-                      style={{ minHeight: "200px", maxHeight: "280px" }}
-                    >
+                {/* Imagen mejorada */}
+                <div className="bg-white p-2 rounded-xl shadow-lg mx-auto max-w-sm mb-6 rotate-1 hover:rotate-0 transition-all duration-300 animate-float-photo">
+                  <div className="bg-gradient-to-br from-pink-200 to-purple-100 p-1 rounded-lg">
+                    <div className="rounded-lg flex items-center justify-center overflow-hidden bg-white aspect-[4/3]">
                       <img
                         src={moments[currentMoment].image}
                         alt={`Momento: ${moments[currentMoment].title}`}
-                        className="rounded object-cover"
+                        className="rounded-lg w-full h-full object-cover"
                         style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "contain",
+                          objectPosition: "center center",
                         }}
                         onError={(e) => {
                           console.error(
@@ -602,57 +606,51 @@ function App() {
               </div>
 
               {/* Controles de navegación */}
-              <div className="flex justify-between mt-8">
+              <div className="flex justify-between items-center mt-6">
                 <button
                   onClick={handlePrevious}
                   disabled={currentMoment === 0}
-                  className={`py-2 px-3 md:px-5 rounded-full font-medium transition-all duration-300 flex items-center ${
+                  className={`py-3 px-5 rounded-full font-medium transition-all duration-300 flex items-center ${
                     currentMoment === 0
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                       : "bg-gradient-to-r from-pink-400 to-pink-500 text-white hover:from-pink-500 hover:to-pink-600 hover:shadow-md"
                   }`}
                 >
-                  <SkipBack size={16} className="mr-1" />
+                  <SkipBack size={18} className="mr-2" />
                   <span className="hidden sm:inline">Anterior</span>
                 </button>
 
-                <span className="text-pink-800 font-medium bg-white bg-opacity-50 py-2 px-4 rounded-full">
+                <span className="text-pink-800 font-medium bg-white bg-opacity-70 py-2 px-4 rounded-full">
                   {currentMoment + 1} / {moments.length}
                 </span>
 
                 <button
                   onClick={handleNext}
                   disabled={currentMoment === moments.length - 1}
-                  className={`py-2 px-3 md:px-5 rounded-full font-medium transition-all duration-300 flex items-center ${
+                  className={`py-3 px-5 rounded-full font-medium transition-all duration-300 flex items-center ${
                     currentMoment === moments.length - 1
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                       : "bg-gradient-to-r from-pink-400 to-pink-500 text-white hover:from-pink-500 hover:to-pink-600 hover:shadow-md"
                   }`}
                 >
                   <span className="hidden sm:inline">Siguiente</span>
-                  <SkipForward size={16} className="ml-1" />
+                  <SkipForward size={18} className="ml-2" />
                 </button>
               </div>
 
               {/* Personalización del mensaje - aparece solo en el último momento */}
               {currentMoment === moments.length - 1 && (
-                <div className="mt-8 bg-white bg-opacity-60 p-4 rounded-lg animate-fadeIn">
-                  <h3 className="text-xl font-bold text-pink-700 mb-2">
+                <div className="mt-8 bg-white bg-opacity-70 p-5 rounded-xl animate-fadeIn shadow-inner">
+                  <h3 className="text-xl font-bold text-pink-700 mb-3">
                     ¿Quieres personalizar tu mensaje?
                   </h3>
                   <textarea
                     value={customMessage}
                     onChange={(e) => setCustomMessage(e.target.value)}
                     placeholder="Escribe aquí tu mensaje personalizado de amor..."
-                    className="w-full p-3 rounded border border-pink-200 focus:border-pink-400 focus:ring focus:ring-pink-200 focus:ring-opacity-50 transition-all duration-300 text-pink-900"
+                    className="w-full p-3 rounded-lg border border-pink-200 focus:border-pink-400 focus:ring focus:ring-pink-200 focus:ring-opacity-50 transition-all duration-300 text-pink-900 resize-none"
                     rows={4}
                   />
-                  <button
-                    onClick={handleShowMessage}
-                    className="mt-3 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-2 px-4 rounded shadow transition-all duration-300"
-                  >
-                    Ver mensaje especial
-                  </button>
                 </div>
               )}
             </div>
@@ -660,14 +658,49 @@ function App() {
         )}
       </div>
 
-      {/* Información de la canción en sección fija (solo cuando está iniciado) */}
-      {started && getCurrentSongName() && (
-        <div className="w-full bg-white bg-opacity-80 backdrop-blur-sm border-t border-pink-200 p-3 flex items-center justify-center">
-          <div className="flex items-center max-w-md">
-            <Music size={16} className="text-pink-600 mr-2 flex-shrink-0" />
-            <span className="text-sm text-pink-800 font-medium truncate">
-              {getCurrentSongName()}
-            </span>
+      {/* Controles de audio y mensaje centrados en la parte inferior */}
+      {started && (
+        <div className="w-full bg-white bg-opacity-90 backdrop-blur-sm border-t border-pink-200 p-4">
+          <div className="max-w-lg mx-auto">
+            {/* Información de la canción */}
+            {getCurrentSongName() && (
+              <div className="flex items-center justify-center mb-3">
+                <Music size={18} className="text-pink-600 mr-2 flex-shrink-0" />
+                <span className="text-sm text-pink-800 font-medium truncate">
+                  {getCurrentSongName()}
+                </span>
+              </div>
+            )}
+
+            {/* Controles centrados */}
+            <div className="flex items-center justify-center gap-4">
+              {/* Botón de mensaje especial - MÁS LLAMATIVO */}
+              <button
+                onClick={handleShowMessage}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 animate-pulse-slow"
+                title="💌 Ver mensaje especial"
+              >
+                <MessageSquareHeart size={24} />
+              </button>
+
+              {/* Control de reproducción/pausa */}
+              <button
+                onClick={togglePlayPause}
+                className="bg-pink-500 hover:bg-pink-600 text-white p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                title={isPlaying ? "Pausar música" : "Reproducir música"}
+              >
+                {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+              </button>
+
+              {/* Control de volumen */}
+              <button
+                onClick={toggleMute}
+                className="bg-pink-500 hover:bg-pink-600 text-white p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                title={isMuted ? "Activar música" : "Silenciar música"}
+              >
+                {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       )}

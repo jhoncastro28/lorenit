@@ -377,12 +377,20 @@ h6 {
     padding: 1rem;
 }
 
+.p-5 {
+    padding: 1.25rem;
+}
+
 .p-6 {
     padding: 1.5rem;
 }
 
 .p-8 {
     padding: 2rem;
+}
+
+.p-10 {
+    padding: 2.5rem;
 }
 
 .p-12 {
@@ -399,6 +407,11 @@ h6 {
     padding-right: 1rem;
 }
 
+.px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
 .px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -407,6 +420,11 @@ h6 {
 .px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+}
+
+.px-10 {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
 }
 
 .py-2 {
@@ -527,6 +545,10 @@ h6 {
     display: flex;
 }
 
+.flex-1 {
+    flex: 1 1 0%;
+}
+
 .items-center {
     align-items: center;
 }
@@ -543,8 +565,16 @@ h6 {
     flex-shrink: 0;
 }
 
-.gap-4>*+* {
-    margin-left: 1rem;
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.gap-4 {
+    gap: 1rem;
 }
 
 .space-x-2>*+* {
@@ -663,6 +693,10 @@ h6 {
     border-left-width: 4px;
 }
 
+.border-t {
+    border-top-width: 1px;
+}
+
 .border-pink-200 {
     border-color: #fbcfe8;
 }
@@ -677,6 +711,10 @@ h6 {
 
 .overflow-x-hidden {
     overflow-x: hidden;
+}
+
+.overflow-auto {
+    overflow: auto;
 }
 
 /* Sombras */
@@ -694,6 +732,10 @@ h6 {
 
 .shadow-2xl {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.3);
 }
 
 .shadow-inner {
@@ -746,6 +788,10 @@ h6 {
     transform: scale(1.05);
 }
 
+.scale-110 {
+    transform: scale(1.1);
+}
+
 .hover\:rotate-0:hover {
     transform: rotate(0deg);
 }
@@ -754,13 +800,60 @@ h6 {
     transform: scale(1.05);
 }
 
+.hover\:scale-110:hover {
+    transform: scale(1.1);
+}
+
+/* Aspect ratio utilities */
+.aspect-square {
+    aspect-ratio: 1 / 1;
+}
+
+.aspect-\[4\/3\] {
+    aspect-ratio: 4 / 3;
+}
+
+.aspect-\[3\/4\] {
+    aspect-ratio: 3 / 4;
+}
+
+.aspect-\[16\/9\] {
+    aspect-ratio: 16 / 9;
+}
+
+/* Object fit */
+.object-cover {
+    object-fit: cover;
+}
+
+.object-contain {
+    object-fit: contain;
+}
+
+/* Object position */
+.object-center {
+    object-position: center;
+}
+
+.object-top {
+    object-position: top;
+}
+
+.object-bottom {
+    object-position: bottom;
+}
+
 /* Opacidad y efectos */
 .opacity-0 {
     opacity: 0;
 }
 
+.bg-opacity-40 {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
 .bg-opacity-60 {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 .bg-opacity-70 {
@@ -773,6 +866,10 @@ h6 {
 
 .bg-opacity-90 {
     background-color: rgba(255, 255, 255, 0.9);
+}
+
+.bg-opacity-95 {
+    background-color: rgba(255, 255, 255, 0.95);
 }
 
 .backdrop-blur-sm {
@@ -823,6 +920,16 @@ h6 {
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(139, 92, 246, 0));
 }
 
+.from-purple-600 {
+    --tw-gradient-from: #7c3aed;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(124, 58, 237, 0));
+}
+
+.from-white {
+    --tw-gradient-from: #ffffff;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
+}
+
 .to-pink-50 {
     --tw-gradient-to: #fdf2f8;
 }
@@ -851,6 +958,34 @@ h6 {
     --tw-gradient-to: #7c3aed;
 }
 
+.to-blue-50 {
+    --tw-gradient-to: #eff6ff;
+}
+
+.to-green-50 {
+    --tw-gradient-to: #f0fdf4;
+}
+
+.to-yellow-50 {
+    --tw-gradient-to: #fefce8;
+}
+
+.to-red-50 {
+    --tw-gradient-to: #fef2f2;
+}
+
+.to-indigo-50 {
+    --tw-gradient-to: #eef2ff;
+}
+
+.to-teal-50 {
+    --tw-gradient-to: #f0fdfa;
+}
+
+.to-orange-50 {
+    --tw-gradient-to: #fff7ed;
+}
+
 .hover\:from-pink-500:hover {
     --tw-gradient-from: #ec4899;
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(236, 72, 153, 0));
@@ -859,6 +994,11 @@ h6 {
 .hover\:from-pink-600:hover {
     --tw-gradient-from: #db2777;
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(219, 39, 119, 0));
+}
+
+.hover\:from-purple-600:hover {
+    --tw-gradient-from: #7c3aed;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(124, 58, 237, 0));
 }
 
 .hover\:to-pink-600:hover {
@@ -885,6 +1025,10 @@ h6 {
 
 .hover\:bg-pink-100:hover {
     background-color: #fce7f3;
+}
+
+.hover\:bg-pink-600:hover {
+    background-color: #db2777;
 }
 
 .hover\:text-pink-900:hover {
@@ -934,7 +1078,6 @@ h6 {
 img {
     max-width: 100%;
     height: auto;
-    object-fit: cover;
 }
 
 /* Estados de botones */
@@ -955,10 +1098,14 @@ button:focus {
     outline-offset: 2px;
 }
 
-/* Responsive Design */
+/* Responsive Design mejorado */
 @media (min-width: 640px) {
     .sm\:inline {
         display: inline;
+    }
+
+    .sm\:text-lg {
+        font-size: 1.125rem;
     }
 }
 
@@ -971,12 +1118,20 @@ button:focus {
         padding: 2rem;
     }
 
+    .md\:p-10 {
+        padding: 2.5rem;
+    }
+
     .md\:p-12 {
         padding: 3rem;
     }
 
     .md\:text-lg {
         font-size: 1.125rem;
+    }
+
+    .md\:text-xl {
+        font-size: 1.25rem;
     }
 
     .md\:text-3xl {
@@ -996,7 +1151,7 @@ button:focus {
     }
 }
 
-/* Optimizaciones móviles */
+/* Optimizaciones móviles mejoradas */
 @media (max-width: 767px) {
     .text-4xl {
         font-size: 2rem;
@@ -1018,8 +1173,22 @@ button:focus {
         padding: 1.5rem;
     }
 
+    .p-10 {
+        padding: 1.75rem;
+    }
+
     .p-12 {
         padding: 2rem;
+    }
+
+    .px-10 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .py-4 {
+        padding-top: 0.875rem;
+        padding-bottom: 0.875rem;
     }
 
     .animate-float {
@@ -1033,6 +1202,31 @@ button:focus {
     .hidden {
         display: none;
     }
+
+    /* Mejorar tamaños de botones en móvil */
+    .rounded-full {
+        min-height: 48px;
+        min-width: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Mejor espaciado en móvil */
+    .gap-4 {
+        gap: 0.75rem;
+    }
+
+    /* Ajustar max-width para móviles */
+    .max-w-lg {
+        max-width: calc(100vw - 2rem);
+        margin: 0 1rem;
+    }
+
+    /* Mejorar visualización de imágenes en móvil */
+    .aspect-\[4\/3\] {
+        aspect-ratio: 1 / 1;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1040,13 +1234,84 @@ button:focus {
         animation-duration: 25s !important;
     }
 
-    .gap-4>*+* {
-        margin-left: 0.5rem;
+    .text-4xl {
+        font-size: 1.875rem;
+    }
+
+    .text-3xl {
+        font-size: 1.625rem;
+    }
+
+    .text-2xl {
+        font-size: 1.375rem;
+    }
+
+    .text-5xl {
+        font-size: 2.25rem;
+    }
+
+    .p-6 {
+        padding: 1rem;
+    }
+
+    .p-8 {
+        padding: 1.25rem;
+    }
+
+    .p-10 {
+        padding: 1.5rem;
+    }
+
+    .px-10 {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .gap-4 {
+        gap: 0.5rem;
     }
 
     .max-w-lg {
-        max-width: calc(100vw - 2rem);
-        margin: 0 1rem;
+        max-width: calc(100vw - 1.5rem);
+        margin: 0 0.75rem;
+    }
+
+    /* Botones más grandes en pantallas muy pequeñas */
+    .rounded-full {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Texto más legible en pantallas pequeñas */
+    .text-sm {
+        font-size: 0.8rem;
+    }
+
+    .text-base {
+        font-size: 0.9rem;
+    }
+
+    .text-lg {
+        font-size: 1rem;
+    }
+}
+
+/* Mejoras específicas para la nueva estructura */
+@media (max-width: 767px) {
+
+    /* Asegurar que los controles inferiores se vean bien */
+    .bg-opacity-90 {
+        backdrop-filter: blur(8px);
+    }
+
+    /* Mejorar espaciado de controles en móvil */
+    .p-4 {
+        padding: 1rem 0.75rem;
+    }
+
+    /* Asegurar que el contenido no se corte */
+    .flex-1 {
+        padding-bottom: 0.5rem;
     }
 }
 
@@ -1099,10 +1364,59 @@ audio {
     }
 
     .p-6 {
-        padding: 1rem;
+        padding: 0.875rem;
     }
 
     .p-4 {
         padding: 0.75rem;
+    }
+
+    .max-w-lg {
+        max-width: calc(100vw - 1rem);
+        margin: 0 0.5rem;
+    }
+}
+
+/* Mejoras específicas para botones interactivos */
+.bg-pink-500 {
+    background-color: #ec4899;
+}
+
+.bg-purple-500 {
+    background-color: #8b5cf6;
+}
+
+button.rounded-full:hover {
+    transform: scale(1.05);
+}
+
+button.rounded-full:active {
+    transform: scale(0.95);
+}
+
+/* Mejora para el aspect ratio en diferentes dispositivos */
+@media (orientation: landscape) and (max-height: 600px) {
+    .aspect-\[4\/3\] {
+        aspect-ratio: 16 / 10;
+        max-height: 200px;
+    }
+
+    .p-8 {
+        padding: 1rem;
+    }
+
+    .p-6 {
+        padding: 0.75rem;
+    }
+}
+
+/* Mejoras para tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .max-w-lg {
+        max-width: 36rem;
+    }
+
+    .aspect-\[4\/3\] {
+        max-height: 300px;
     }
 }
