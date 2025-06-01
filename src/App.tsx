@@ -581,13 +581,13 @@ function App() {
                 </div>
 
                 {/* Imagen mejorada */}
-                <div className="bg-white p-2 rounded-xl shadow-lg mx-auto max-w-sm mb-6 rotate-1 hover:rotate-0 transition-all duration-300 animate-float-photo">
-                  <div className="bg-gradient-to-br from-pink-200 to-purple-100 p-1 rounded-lg">
-                    <div className="rounded-lg flex items-center justify-center overflow-hidden bg-white aspect-[4/3]">
+                <div className="bg-white p-1 rounded-lg shadow-lg mx-auto max-w-xs mb-3 rotate-1 hover:rotate-0 transition-all duration-300 animate-float-photo">
+                  <div className="bg-gradient-to-br from-pink-200 to-purple-100 p-1 rounded">
+                    <div className="rounded flex items-center justify-center bg-white">
                       <img
                         src={moments[currentMoment].image}
                         alt={`Momento: ${moments[currentMoment].title}`}
-                        className="rounded-lg w-full h-full object-cover"
+                        className="rounded w-full max-h-24 object-contain"
                         style={{
                           objectPosition: "center center",
                         }}
