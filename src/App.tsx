@@ -95,7 +95,7 @@ function App() {
     {
       title: "Nuestra primera salida juntos",
       description:
-        "Un lugar nuevo, completamente diferente. Yo completamente admirado por todo lo que veía, pero más aún por ti",
+        "Un lugar nuevo, completamente diferente. Yo anonadado y admirado por todo lo que veía, pero más aún por ti",
       emoji: "🧳",
       color: "bg-green-100",
       quote: "«No importa el destino o el contexto, siempre tú»",
