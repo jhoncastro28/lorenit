@@ -111,6 +111,15 @@ h6 {
     }
 }
 
+@keyframes ping {
+
+    75%,
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
 @keyframes twinkle {
 
     0%,
@@ -171,6 +180,8 @@ h6 {
     50% {
         transform: translateY(-8px) rotate(-1deg);
     }
+
+
 }
 
 /* Clases de animación */
@@ -196,6 +207,10 @@ h6 {
 
 .animate-heartbeat {
     animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.animate-ping {
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 .animate-twinkle {
@@ -514,6 +529,14 @@ h6 {
 
 .h-auto {
     height: auto;
+}
+
+.h-48 {
+    height: 12rem;
+}
+
+.max-h-70 {
+    max-height: 17.5rem;
 }
 
 .min-h-screen {
@@ -1221,6 +1244,15 @@ button:focus {
     .max-w-lg {
         max-width: calc(100vw - 2rem);
         margin: 0 1rem;
+    }
+
+    /* Ajustar tamaño de imágenes en móvil */
+    .max-w-sm {
+        max-width: calc(100vw - 3rem);
+    }
+
+    .h-48 {
+        height: 10rem;
     }
 
     /* Mejorar visualización de imágenes en móvil */

@@ -581,13 +581,16 @@ function App() {
                 </div>
 
                 {/* Imagen mejorada */}
-                <div className="bg-white p-1 rounded-lg shadow-lg mx-auto max-w-xs mb-3 rotate-1 hover:rotate-0 transition-all duration-300 animate-float-photo">
+                <div className="bg-white p-1 rounded-lg shadow-lg mx-auto max-w-sm mb-3 rotate-1 hover:rotate-0 transition-all duration-300 animate-float-photo">
                   <div className="bg-gradient-to-br from-pink-200 to-purple-100 p-1 rounded">
-                    <div className="rounded flex items-center justify-center bg-white">
+                    <div
+                      className="rounded flex items-center justify-center bg-white overflow-hidden"
+                      style={{ minHeight: "200px", maxHeight: "280px" }}
+                    >
                       <img
                         src={moments[currentMoment].image}
                         alt={`Momento: ${moments[currentMoment].title}`}
-                        className="rounded w-full max-h-24 object-contain"
+                        className="rounded w-full max-h-70 object-contain"
                         style={{
                           objectPosition: "center center",
                         }}
@@ -674,13 +677,19 @@ function App() {
 
             {/* Controles centrados */}
             <div className="flex items-center justify-center gap-4">
-              {/* Botón de mensaje especial - MÁS LLAMATIVO */}
+              {/* Botón de mensaje especial */}
               <button
                 onClick={handleShowMessage}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 animate-pulse-slow"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-4 rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-125 animate-bounce relative overflow-hidden"
                 title="💌 Ver mensaje especial"
               >
-                <MessageSquareHeart size={24} />
+                <span className="absolute inset-0 bg-gradient-to-r from-yellow-300 to-pink-300 opacity-0 animate-pulse"></span>
+                <MessageSquareHeart
+                  size={28}
+                  className="relative z-10 animate-heartbeat"
+                />
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping"></span>
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
               </button>
 
               {/* Control de reproducción/pausa */}
