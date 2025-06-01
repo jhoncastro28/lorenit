@@ -648,22 +648,6 @@ function App() {
                   <SkipForward size={18} className="ml-2" />
                 </button>
               </div>
-
-              {/* Personalización del mensaje - aparece solo en el último momento */}
-              {currentMoment === moments.length - 1 && (
-                <div className="mt-8 bg-white bg-opacity-70 p-5 rounded-xl animate-fadeIn shadow-inner">
-                  <h3 className="text-xl font-bold text-pink-700 mb-3">
-                    ¿Quieres personalizar tu mensaje?
-                  </h3>
-                  <textarea
-                    value={customMessage}
-                    onChange={(e) => setCustomMessage(e.target.value)}
-                    placeholder="Escribe aquí tu mensaje personalizado de amor..."
-                    className="w-full p-3 rounded-lg border border-pink-200 focus:border-pink-400 focus:ring focus:ring-pink-200 focus:ring-opacity-50 transition-all duration-300 text-pink-900 resize-none"
-                    rows={4}
-                  />
-                </div>
-              )}
             </div>
           </div>
         )}
