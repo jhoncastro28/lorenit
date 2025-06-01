@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [react()],
 
     // Base path para GitHub Pages
-    base: '/lorenit/',
+    base: process.env.NODE_ENV === 'production' ? '/lorenit/' : '/',
 
     // Optimizaciones de build
     build: {
@@ -17,11 +17,8 @@ export default defineConfig({
         sourcemap: false,
         minify: 'terser',
 
-        // Configuración específica para GitHub Pages
+        // Configuración de chunks para mejor carga
         rollupOptions: {
-            input: {
-                main: resolve(__dirname, 'index.html')
-            },
             output: {
                 manualChunks: {
                     vendor: ['react', 'react-dom'],
@@ -48,10 +45,10 @@ export default defineConfig({
             }
         },
 
-        // Configuración de terser
+        // Configuración de terser para mejor minificación
         terserOptions: {
             compress: {
-                drop_console: true,
+                drop_console: process.env.NODE_ENV === 'production',
                 drop_debugger: true,
             },
         },
@@ -70,10 +67,10 @@ export default defineConfig({
         open: true,
     },
 
-    // Assets incluidos
+    // Optimizaciones de assets
     assetsInclude: ['**/*.mp3', '**/*.wav', '**/*.ogg'],
 
-    // Resolve configuration
+    // Configuración de resolve para mejor manejo de paths
     resolve: {
         alias: {
             '@': resolve(__dirname, 'src'),
@@ -82,11 +79,16 @@ export default defineConfig({
         }
     },
 
-    // Optimización de dependencias
+    // Configuración de optimización de dependencias
     optimizeDeps: {
         include: ['react', 'react-dom', 'lucide-react'],
     },
 
-    // Configuración del directorio público
+    // Configuración específica para GitHub Pages
     publicDir: 'public',
+
+    // Headers para mejor carga de assets
+    define: {
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+    }
 });
