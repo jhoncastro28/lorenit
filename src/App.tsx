@@ -39,6 +39,19 @@ import abelPintos from "./assets/songs/Abel Pintos - No Me Olvides.mp3";
 import harryStyles from "./assets/songs/Harry Styles - Love Of My Life.mp3";
 import goodOldFashioned from "./assets/songs/Good Old-Fashioned Lover Boy - Queen.mp3";
 
+const songNames = [
+  "Louis Tomlinson - Silver Tongues",
+  "The Beatles - Something",
+  "One Direction - Fireproof",
+  "Benjamin Amadeo - Para Siempre",
+  "Oscar Lang - Million Little Reasons",
+  "Mac Miller - Surf",
+  "Niall Horan - You And Me",
+  "Abel Pintos - No Me Olvides",
+  "Harry Styles - Love Of My Life",
+  "Queen - Good Old-Fashioned Lover Boy",
+];
+
 function App() {
   const [started, setStarted] = useState(false);
   const [currentMoment, setCurrentMoment] = useState(0);
@@ -476,13 +489,8 @@ function App() {
 
   // Obtener nombre de la canción para mostrar
   const getCurrentSongName = () => {
-    if (!started || !moments[currentMoment].song) return null;
-
-    return moments[currentMoment].song
-      .split("/")
-      .pop()
-      ?.replace(".mp3", "")
-      .replace(/%20/g, " ");
+    if (!started) return null;
+    return songNames[currentMoment] || null;
   };
 
   return (
