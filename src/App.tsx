@@ -85,7 +85,7 @@ function App() {
     {
       title: "El primer beso",
       description:
-        "No es la mejor foto jajaja. En el Aeropuerto, esa primera mirada. Yo siempre tan torpe, Lore siempre tan radiante y dulce",
+        "No es la mejor foto jajaja. En el Aeropuerto, esa primera mirada. Yo siempre tan tosco, Lore siempre tan radiante y dulce",
       emoji: "💋",
       color: "bg-blue-100",
       quote: "«Un beso lleno de sacrificio y unión»",
